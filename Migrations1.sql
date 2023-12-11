@@ -1,0 +1,4 @@
+USE ProjetBDD;
+
+ALTER TABLE commentaire
+ADD date_publication DATETIME NOT NULL DEFAULT GETDATE();
