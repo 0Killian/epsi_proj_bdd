@@ -8,7 +8,7 @@ AS
 BEGIN
     IF (SELECT golden FROM inserted) = 0
     OR (SELECT dernier_golden_like FROM compte WHERE compte.id = (SELECT compte_id FROM inserted)) IS NULL
-    OR ((SELECT DATEPART(week, dernier_golden_like) FROM compte WHERE compte.id = (SELECT compte_id FROM inserted)) <= DATEPART(week, GETDATE()))
+    OR ((SELECT DATEPART(week, dernier_golden_like) FROM compte WHERE compte.id = (SELECT compte_id FROM inserted)) < DATEPART(week, GETDATE()))
     BEGIN
         INSERT INTO [like] (compte_id, post_id, golden)
         SELECT compte_id, post_id, golden
@@ -38,8 +38,8 @@ AS
 BEGIN
     IF (SELECT golden FROM deleted) = 0
 	BEGIN
-	DELETE FROM [like]
-	WHERE post_id = (SELECT post_id FROM deleted)
-	  AND compte_id = (SELECT compte_id FROM deleted);
+    	DELETE FROM [like]
+	    WHERE post_id = (SELECT post_id FROM deleted)
+    	  AND compte_id = (SELECT compte_id FROM deleted);
 	END
 END;

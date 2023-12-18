@@ -1,9 +1,9 @@
 USE ProjetBDD;
 GO
 
-/* ALTER TABLE compte
+ALTER TABLE compte
 ADD suspendu BIT NOT NULL DEFAULT 0;
-GO */
+GO
 
 CREATE TRIGGER suspendre_compte
 ON signalement
@@ -28,7 +28,7 @@ BEGIN
     */
     IF (
         SELECT COUNT(*) FROM signalement
-        INNER JOIN post ON post.id = signalement.post_id
+        LEFT JOIN post ON post.id = signalement.post_id
         WHERE  signale_id = @id_compte
             OR post.compte_id = @id_compte
     ) >= 10
